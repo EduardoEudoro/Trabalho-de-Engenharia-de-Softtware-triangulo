@@ -1,5 +1,6 @@
 """Lucas Crempe Fazan - 828519"""
 """Eduardo Lemos de Oliveira- 824757"""
+"""João Victor Dummont Mauad - 834725"""
 import pytest
 from triangle import Triangle, TriangleType
 
@@ -13,7 +14,7 @@ def test_isosceles():
     assert Triangle(3, 5, 5).type == TriangleType.ISOSCELES
 
 def test_scalene():
-    t = Triangle(3, 4, 5)
+    t = Triangle(4, 5, 6)
     assert t.type == TriangleType.SCALENE
     
 def test_invalid_triangle_inequality():
@@ -21,13 +22,11 @@ def test_invalid_triangle_inequality():
     assert Triangle(1, 2, 4).type == TriangleType.INVALID
 
 def test_invalid_zeros_and_negatives_permutations():
-    """Lados nulos ou negativos não formam triângulos."""
     invalid_cases = [
         (0, 4, 5), (4, 0, 5), (5, 4, 0),
         (-1, 2, 2), (2, -1, 2), (2, 2, -1),
         (0, 0, 0), (-5, -5, -5)
     ]
-    
     for a, b, c in invalid_cases:
         assert Triangle(a, b, c).type == TriangleType.INVALID
     
@@ -38,15 +37,34 @@ def test_float_sides():
 
 def test_string_numbers_converted_successfully():
     assert Triangle("5", "5", "5").type == TriangleType.EQUILATERAL
-    assert Triangle("3", "4", "5").type == TriangleType.SCALENE
-
-def test_invalid_data_types_raise_exception():
-    with pytest.raises((TypeError, ValueError)):
-        Triangle("a", "b", "c").type
-    
-    with pytest.raises((TypeError, ValueError)):
-        Triangle(None, 4, 5).type 
+    assert Triangle("4", "5", "6").type == TriangleType.SCALENE
 
 def test_precision_and_near_equality():
-    assert Triangle(5.0, 5.0, 5.0000000001).type == TriangleType.SCALENE
-    assert Triangle(0.0001, 0.0001, 0.0001).type == TriangleType.EQUILATERAL
+    assert Triangle(5.0, 5.0, 5.0000000001).type == TriangleType.ISOSCELES
+    assert Triangle(0.0001, 0.0001, 0.0001).type == TriangleType.EQUILATERAL 
+
+def test_right_triangle_support():
+    assert Triangle(5, 12, 13).type == TriangleType.RIGHT
+    assert Triangle(6, 8, 10).type == TriangleType.RIGHT
+    assert Triangle(8, 15, 17).type == TriangleType.RIGHT
+    assert Triangle(3, 4, 5).type == TriangleType.RIGHT
+
+def test_error_messages_and_explanations():
+    """Testar as descrições geradas pela nova função description()"""
+    
+    desc_right = Triangle(5, 12, 13).description()
+    assert "retângulo" in desc_right
+    
+    desc_invalid = Triangle(0, 5, 5).description()
+    assert "NÃO formam um triângulo válido" in desc_invalid
+    
+    desc_equilateral = Triangle(2, 2, 2).description()
+    assert "equilátero" in desc_equilateral
+
+def test_exceptions_and_error_handling():
+    """Verificar se dados inválidos (Letras, Nulos) são capturados pelo código e retornam INVALID"""
+    
+    assert Triangle("a", "b", "c").type == TriangleType.INVALID
+    assert Triangle(None, 4, 5).type == TriangleType.INVALID
+    assert Triangle([1, 2], {3: 4}, 5).type == TriangleType.INVALID
+    assert "são inválidos" in Triangle("a", "b", "c").description()
