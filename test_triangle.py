@@ -49,9 +49,7 @@ def test_right_triangle_support():
     assert Triangle(8, 15, 17).type == TriangleType.RIGHT
     assert Triangle(3, 4, 5).type == TriangleType.RIGHT
 
-def test_error_messages_and_explanations():
-    """Testar as descrições geradas pela nova função description()"""
-    
+def test_error_messages_and_explanations():    
     desc_right = Triangle(5, 12, 13).description()
     assert "retângulo" in desc_right
     
@@ -61,9 +59,7 @@ def test_error_messages_and_explanations():
     desc_equilateral = Triangle(2, 2, 2).description()
     assert "equilátero" in desc_equilateral
 
-def test_exceptions_and_error_handling():
-    """Verificar se dados inválidos (Letras, Nulos) são capturados pelo código e retornam INVALID"""
-    
+def test_exceptions_and_error_handling():    
     assert Triangle("a", "b", "c").type == TriangleType.INVALID
     assert Triangle(None, 4, 5).type == TriangleType.INVALID
     assert Triangle([1, 2], {3: 4}, 5).type == TriangleType.INVALID
