@@ -1,3 +1,4 @@
+#https://github.com/EduardoEudoro/Trabalho-de-Engenharia-de-Softtware-triangulo
 """Lucas Crempe Fazan - 828519"""
 """Eduardo Lemos de Oliveira- 824757"""
 """João Victor Dummont Mauad - 834725"""
