@@ -26,10 +26,13 @@ class Triangle:
 
     @property
     def type(self) -> TriangleType:
-        # NÃO tratar exceção aqui (pytest espera erro)
-        a = self._to_float(self.side1)
-        b = self._to_float(self.side2)
-        c = self._to_float(self.side3)
+        # AGORA SIM! Tratamos a exceção para que Letras/Nulos retornem INVALID
+        try:
+            a = self._to_float(self.side1)
+            b = self._to_float(self.side2)
+            c = self._to_float(self.side3)
+        except (TypeError, ValueError):
+            return TriangleType.INVALID
 
         # Ordena lados
         a, b, c = sorted([a, b, c])
@@ -75,7 +78,7 @@ class Triangle:
         if t == TriangleType.INVALID:
             return (
                 f"Os números {a_f}, {b_f} e {c_f} NÃO formam um triângulo válido, "
-                f"pois a soma de dois lados não é maior que o terceiro."
+                f"pois a soma de dois lados não é maior que o terceiro ou há lados nulos/negativos."
             )
 
         if t == TriangleType.EQUILATERAL:
