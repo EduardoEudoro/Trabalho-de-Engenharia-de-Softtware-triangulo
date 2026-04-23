@@ -1,3 +1,6 @@
+"""Lucas Crempe Fazan - 828519"""
+"""Eduardo Lemos de Oliveira- 824757"""
+"""João Victor Dummont Mauad - 834725"""
 from dataclasses import dataclass
 from enum import Enum, auto
 import math
@@ -21,12 +24,10 @@ class Triangle:
         return float(value)
 
     def _format(self, x):
-        """Remove .0 de números inteiros para deixar a saída bonita."""
         return int(x) if float(x).is_integer() else x
 
     @property
     def type(self) -> TriangleType:
-        # AGORA SIM! Tratamos a exceção para que Letras/Nulos retornem INVALID
         try:
             a = self._to_float(self.side1)
             b = self._to_float(self.side2)
@@ -34,12 +35,11 @@ class Triangle:
         except (TypeError, ValueError):
             return TriangleType.INVALID
 
-        # Ordena lados
         a, b, c = sorted([a, b, c])
 
         epsilon = 1e-12
 
-        # Verifica validade
+        # Valido?
         if a <= 0 or a + b <= c:
             return TriangleType.INVALID
 
@@ -59,7 +59,6 @@ class Triangle:
         return TriangleType.SCALENE
 
     def description(self) -> str:
-        """Gera uma mensagem amigável e explicativa."""
         try:
             a = float(self.side1)
             b = float(self.side2)
@@ -67,10 +66,8 @@ class Triangle:
         except (TypeError, ValueError):
             return f"Os valores {self.side1}, {self.side2} e {self.side3} são inválidos."
 
-        # Ordena para consistência
         a, b, c = sorted([a, b, c])
 
-        # Formatação bonita
         a_f, b_f, c_f = map(self._format, [a, b, c])
 
         t = self.type
@@ -88,7 +85,6 @@ class Triangle:
             )
 
         if t == TriangleType.ISOSCELES:
-            # Identifica quais lados são iguais
             if a == b:
                 iguais = f"{a_f} = {b_f}"
             elif a == c:
